@@ -11,7 +11,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   SignUpCubit(this._signupRepo) : super(const SignUpState.initial());
 
-  TextEditingController nameController = TextEditingController();
+  TextEditingController nameController1 = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
@@ -35,13 +35,14 @@ class SignUpCubit extends Cubit<SignUpState> {
     );
 
     response.when(success: (signupResponse) async {
-      await SharedPrefHelper.setSecuredString(SharedPrefKeys.userToken, signupResponse.token ?? '');
+      await SharedPrefHelper.setSecuredString(
+          SharedPrefKeys.userToken, signupResponse.token ?? '');
       await SharedPrefHelper.saveEmail(signupResponse.email ?? '');
-      await SharedPrefHelper.setData(SharedPrefKeys.userName,signupResponse.userName);
+      await SharedPrefHelper.setData(
+          SharedPrefKeys.userName, signupResponse.userName);
       emit(SignUpState.signupSuccess(signupResponse));
     }, failure: (error) {
       emit(SignUpState.signupError(error: error.apiErrorModel));
     });
   }
 }
-
